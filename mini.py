@@ -7,9 +7,12 @@ class Mini():
 
     def change_status(status):
         self.__status = status 
+    
+    def __str__(self):
+        return f"{self.name} - {self.__faction} ({self.__game})"
 
-    def get_game():
+    def get_game(self):
         return self.__game
     
-    def get_faction():
+    def get_faction(self):
         return self.__faction 
