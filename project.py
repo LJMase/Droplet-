@@ -9,10 +9,10 @@ class Project():
         self.minis.append(mini)
     
     def get_category():
-        return self.__categpry
+        return self.__category
     
     def get_name():
         return self.__name
     
     def get_description():
-        reutrn self.__description
+        return self.__description
