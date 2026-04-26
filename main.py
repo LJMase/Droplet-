@@ -64,6 +64,9 @@ def display_miniatures_menu():
             case 2:
                 print("\nEnter the details of the miniature you would like to edit: ")
                 game, faction, miniature = input("Game: "), input("Faction: "), input("Name: ")
+                for mini in miniatures: 
+                    if mini == Mini(game, faction, miniature):
+                        print("Mini found") 
             case 3:
                 pass
             case 4:
