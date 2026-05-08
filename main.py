@@ -37,7 +37,6 @@ def display_main_menu():
             case 1:
                 pass
             case 2:
-                print("")
                 display_miniatures_menu()
                 return 0
             case 3:
@@ -45,7 +44,12 @@ def display_main_menu():
             case 4:
                 with open(mini_csv, "w") as file:
                     for mini in miniatures:
-                        file.write(f"{mini.get_game()}, {mini.get_faction()}, {mini.name}\n")
+                        file.write(f"{mini.game}, {mini.faction}, {mini.name}\n")
+
+                with open(paint_csv, "w") as file:
+                    for paint in paints:
+                        #file.write(f"{paint.get_brand()}, {paint.get_color()}, {paint.get_sku()}\n")
+                        pass
                 return 0 
             case _:
                 print("\nWARNING: Must be a number 1-4.\n")
@@ -53,7 +57,7 @@ def display_main_menu():
 def display_miniatures_menu():
     while True:
         try:
-            choice = int(input("What would you like to do?\n1. Add a Mini\n2. Edit a Mini\n3. Delete a Mini\n4. View all Miniatures\n5. Go Back\n"))
+            choice = int(input("What would you like to do?\n1. Add a Mini\n2. Edit a Mini\n3. Delete a Mini\n4. View Miniatures\n5. Go Back\n"))
         except ValueError:
             print("\nWARNING: Must be a number 1-3.\n")
         
@@ -63,14 +67,29 @@ def display_miniatures_menu():
                 miniatures.append(Mini(input("Game: "), input("Faction: "), input("Name: "))) 
             case 2:
                 print("\nEnter the details of the miniature you would like to edit: ")
-                game, faction, miniature = input("Game: "), input("Faction: "), input("Name: ")
+                game, faction, name = input("Game: "), input("Faction: "), input("Name: ")
                 for mini in miniatures: 
-                    if mini == Mini(game, faction, miniature):
-                        print("Mini found") 
+                    if mini == Mini(game, faction, name):
+                        print("\nMini Found! Enter the new details below:")
+                        new_game, new_faction, new_name = input("New Game: "), input("New Faction: "), input("New Name: ")
+                        mini.game, mini.faction, mini.name = new_game, new_faction, new_name
+                        break 
+                    # Using else here would print the not found result every for loop and putting it outside the for loop results in it running every time. This is my solution. 
+                    if mini == miniatures[len(miniatures)-1]:
+                        print("Mini Not Found")
             case 3:
-                pass
+                print("\nEnter the details of the miniature you would like to delete:")
+                game, faction, name = input("Game: "), input("Faction: "), input("Name: ")
+                for mini in miniatures:
+                    if mini == Mini(game, faction, name):
+                        print("\nMini Deleted!")
+                        miniatures.remove(mini)
+                        break
+                    if mini == miniatures[len(miniatures)-1]:
+                        print("Mini Not Found")
             case 4:
-                pass
+                for i in range(0, len(miniatures)):
+                    print(f"{i+1}: {sorted(miniatures)[i]}")
             case 5:
                 display_main_menu()
                 return 0

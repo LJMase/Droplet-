@@ -1,7 +1,7 @@
 class Mini():
     def __init__(self, game, faction, name):
-        self.__game = game 
-        self.__faction = faction
+        self.game = game 
+        self.faction = faction
         self.name = name 
         self.__status = "on sprue"
 
@@ -14,10 +14,9 @@ class Mini():
         return False 
 
     def __str__(self):
-        return f"{self.name} - {self.__faction} ({self.__game})"
+        return f"{self.name} - {self.faction} ({self.game})"
 
-    def get_game(self):
-        return self.__game
-    
-    def get_faction(self):
-        return self.__faction 
+    def __lt__(self, other):
+        if self.game == other.game:
+            return self.faction < other.faction 
+        return self.game < other.game
