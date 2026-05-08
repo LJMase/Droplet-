@@ -9,9 +9,7 @@ class Mini():
         self.__status = status 
 
     def __eq__(self, other):
-        if self.name == other.name and self.get_faction() == other.get_faction() and self.get_game() == other.get_game():
-            return True
-        return False 
+        return self.name == other.name and self.get_faction() == other.get_faction() and self.get_game() == other.get_game()
 
     def __str__(self):
         return f"{self.name} - {self.faction} ({self.game})"

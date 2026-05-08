@@ -5,7 +5,7 @@ from paint import Paint
 
 mini_csv, paint_csv = "./miniatures.csv", "./paints.csv"
 miniatures = []
-paints = ["Ultramarine Blue", "Mephiston Red", "Wraithbone", "Guilliman Flesh", "Corax White", "Abaddon Black", "Thunderhawk Blue"]
+paints = []
 
 def load_objects():
     if os.path.isfile(mini_csv):
@@ -14,14 +14,17 @@ def load_objects():
                 words = [word.strip() for word in line.split(",")]
                 miniatures.append(Mini(words[0], words[1], words[2]))
     else:
+        print("No miniatures file found. Creating new file...")
         with open(mini_csv, "w"):
             pass 
 
     if os.path.isfile(paint_csv):  
         with open(paint_csv, "r") as file:
             for line in file:
-                pass
+                words = [word.strip() for word in line.split(",")]
+                paints.append(Paint(words[0], words[1], words[2]))
     else:
+        print("No paint file found. Creating new file...")
         with open(paint_csv, "w"):
             pass 
 
@@ -40,7 +43,8 @@ def display_main_menu():
                 display_miniatures_menu()
                 return 0
             case 3:
-                return f"\nHere are the most recent Paints:\n{paints[-5:]}"
+                display_paints_menu()
+                return 0
             case 4:
                 with open(mini_csv, "w") as file:
                     for mini in miniatures:
@@ -48,8 +52,8 @@ def display_main_menu():
 
                 with open(paint_csv, "w") as file:
                     for paint in paints:
-                        #file.write(f"{paint.get_brand()}, {paint.get_color()}, {paint.get_sku()}\n")
-                        pass
+                        file.write(f"{paint.brand}, {paint.color}, {paint.sku}\n")
+
                 return 0 
             case _:
                 print("\nWARNING: Must be a number 1-4.\n")
@@ -59,7 +63,7 @@ def display_miniatures_menu():
         try:
             choice = int(input("What would you like to do?\n1. Add a Mini\n2. Edit a Mini\n3. Delete a Mini\n4. View Miniatures\n5. Go Back\n"))
         except ValueError:
-            print("\nWARNING: Must be a number 1-3.\n")
+            print("\nWARNING: Must be a number 1-5.\n")
         
         match choice:
             case 1:
@@ -94,7 +98,31 @@ def display_miniatures_menu():
                 display_main_menu()
                 return 0
             case _:
-                print("\nWARNING: Must be a number 1-3.\n")
+                print("\nWARNING: Must be a number 1-5.\n")
+
+def display_paints_menu():
+    while True:
+        try:
+            choice = int(input("What would you like to do?\n1. Add a Paint\n2. Edit a Paint\n3. Delete a Paint\n4. View Paints\n5. Go Back\n"))
+        except ValueError:
+            print("\nWARNING: Must be a number 1-5.\n")
+
+        match choice:
+            case 1:
+                print("\nPlease enter the name, the brand, and the SKU (if N/A, enter 0).")
+                paints.append(Paint(input("Brand: "), input("Color: "), input("SKU: "))) 
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                for i in range(0, len(paints)):
+                    print(f"{i+1}: {sorted(paints)[i]}")
+            case 5:
+                display_main_menu()
+                return 0
+            case _:
+                print("\nWARNING: Must be a number 1-5.\n")
 
 def main():
     load_objects()
