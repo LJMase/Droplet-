@@ -33,8 +33,8 @@ def load_objects():
     if os.path.isfile(project_csv):  
         with open(project_csv, "r") as file:
             for line in file:
-                words = [word.strip() for word in line.split(",")]
-                projects.append(Project(words[0], words[1], words[2], words[3]))
+                words = [word.strip() for word in line.split(",", 3)]
+                projects.append(Project(words[0], words[1], words[2], json.loads(words[3])))       
     else:
         print("No project file found. Creating new file...")
         with open(project_csv, "w"):
@@ -50,14 +50,32 @@ def display_main_menu():
             
         match choice:
             case 1:
-                print("Please enter the project name and category: ")
-                project_name, project_category = input("Name: "), input("Category: ")
-                for project in projects:
-                    if project == Project(project_name, project_category):
-                        display_projects_menu(project)
-                        return 0
-                    if project == projects[len(projects)-1]:
-                        print("Project not found.")    
+                print("Please enter the number of the project you wish to open (0 to load more): ")
+                project_choice = 0
+                project_list_start = 0
+                project_list_end = 5
+                while project_choice == 0:
+                    for i in range(project_list_start, project_list_end):
+                        try:
+                            print(f"{i+1}. {projects[i]}")
+                        except IndexError:
+                            break
+                    project_list_start += 5
+                    project_list_end += 5
+                    try:
+                        project_choice = int(input("Project Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if project_choice < 1 or project_choice > len(projects):
+                        print("Invalid Number! Please choose again.")
+                        project_choice = 0
+                    if project_list_start > len(projects) and project_choice == 0:
+                        print("All projects printed, looping back to start.")
+                        project_list_start = 0
+                        project_list_end = 5
+                display_projects_menu(projects[project_choice-1])
+                return 0
             case 2:
                 print("Enter the project category, name, and description.")
                 project_category, project_name, project_description = input("Category: "), input("Name: "), input("Description: ")
@@ -74,15 +92,16 @@ def display_main_menu():
             case 6:
                 with open(mini_csv, "w") as file:
                     for mini in miniatures:
-                        json.dump(f"{mini.game}, {mini.faction}, {mini.name}", file)
+                        file.write(f"{mini.game}, {mini.faction}, {mini.name}\n")
 
                 with open(paint_csv, "w") as file:
                     for paint in paints:
-                        json.dump(f"{paint.brand}, {paint.color}, {paint.sku}", file)
+                        file.write(f"{paint.brand}, {paint.color}, {paint.sku}\n")
 
                 with open(project_csv, "w") as file:
                     for project in projects:
-                        json.dump(f"{project.category}, {project.name}, {project.description}, {project.minis}", file)
+                        file.write(f"{project.category}, {project.name}, {project.description}, {json.dumps(project.minis)}\n")
+                        
 
                 return 0 
             case _:
@@ -98,9 +117,9 @@ def display_projects_menu(project):
 
         match choice:
             case 1:
-                project.add_mini(miniatures[1])
+                project.add_mini(miniatures[int(input("Mini number"))])
             case 2:
-                pass
+                print(project.minis)
             case 3:
                 pass
             case 4:

@@ -3,10 +3,6 @@ class Mini():
         self.game = game 
         self.faction = faction
         self.name = name 
-        self.__status = "on sprue"
-
-    def change_status(status):
-        self.__status = status 
 
     def __eq__(self, other):
         return self.name == other.name and self.get_faction() == other.get_faction() and self.get_game() == other.get_game()
