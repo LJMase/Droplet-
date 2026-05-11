@@ -117,7 +117,31 @@ def display_projects_menu(project):
 
         match choice:
             case 1:
-                project.add_mini(miniatures[int(input("Mini number"))])
+                print("Please enter the number of the mini you wish to add (0 to load more): ")
+                mini_choice = 0
+                mini_list_start = 0
+                mini_list_end = 5
+                while mini_choice == 0:
+                    for i in range(mini_list_start, mini_list_end):
+                        try:
+                            print(f"{i+1}. {miniatures[i]}")
+                        except IndexError:
+                            break
+                    mini_list_start += 5
+                    mini_list_end += 5
+                    try:
+                        mini_choice = int(input("Mini Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if mini_choice < 1 or mini_choice > len(miniatures):
+                        print("Invalid Number! Please choose again.")
+                        mini_choice = 0
+                    if mini_list_start > len(miniatures) and mini_choice == 0:
+                        print("All projects printed, looping back to start.")
+                        mini_list_start = 0
+                        mini_list_end = 5
+                project.add_mini(miniatures[mini_choice-1], 1)
             case 2:
                 print(project.minis)
             case 3:
