@@ -15,6 +15,10 @@ class Project():
     def print_mini(self, mini_num):
         return f"{self.minis[mini_num]}"
 
+    def print_minis(self):
+        for key, value in self.minis.items():
+            print(f"{self.minis[key]["Amount"]}x {self.minis[key]["Mini"]}: {self.minis[key]["Status"]["On-Sprue"]} On-Sprue, {self.minis[key]["Status"]["Assembled"]} Assembled, {self.minis[key]["Status"]["Primed"]} Primed, {self.minis[key]["Status"]["Painted"]} Painted. Paint Scheme: {self.minis[key]["Paints"]}")
+
     def __eq__(self, other):
         return self.name == other.name and self.category == other.category
 

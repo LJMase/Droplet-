@@ -50,6 +50,10 @@ def display_main_menu():
             
         match choice:
             case 1:
+                if not projects:
+                    print("No projects added yet.")
+                    continue
+
                 print("Please enter the number of the project you wish to open (0 to load more): ")
                 project_choice = 0
                 project_list_start = 0
@@ -117,6 +121,10 @@ def display_projects_menu(project):
 
         match choice:
             case 1:
+                if not miniatures:
+                    print("No miniatures available.")
+                    continue
+
                 print("Please enter the number of the mini you wish to add (0 to load more): ")
                 mini_choice = 0
                 mini_list_start = 0
@@ -138,14 +146,71 @@ def display_projects_menu(project):
                         print("Invalid Number! Please choose again.")
                         mini_choice = 0
                     if mini_list_start > len(miniatures) and mini_choice == 0:
-                        print("All projects printed, looping back to start.")
+                        print("All minis printed, looping back to start.")
                         mini_list_start = 0
                         mini_list_end = 5
                 project.add_mini(miniatures[mini_choice-1], 1)
             case 2:
-                print(project.minis)
+                project.print_minis()
             case 3:
-                pass
+                if not project.minis:
+                    print("No minis added to project yet.")
+                    continue
+
+                print("Please enter the number of the mini you wish to paint (0 to load more): ")
+                mini_choice = 0
+                mini_list_start = 0
+                mini_list_end = 5
+                while mini_choice == 0:
+                    for i in range(mini_list_start, mini_list_end):
+                        try:
+                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
+                        except KeyError:
+                            break
+                    mini_list_start += 5
+                    mini_list_end += 5
+                    try:
+                        mini_choice = int(input("Mini Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if mini_choice < 1 or mini_choice > len(project.minis):
+                        print("Invalid Number! Please choose again.")
+                        mini_choice = 0
+                    if mini_list_start > len(project.minis) and mini_choice == 0:
+                        print("All minis printed, looping back to start.")
+                        mini_list_start = 0
+                        mini_list_end = 5
+                
+                if not paints:
+                    print("No paints available.")
+                    continue
+                    
+                print("Please enter the number of the paint you'd like to apply (0 to load more): ")
+                paint_choice = 0
+                paint_list_start = 0
+                paint_list_end = 5
+                while paint_choice == 0:
+                    for i in range(paint_list_start, paint_list_end):
+                        try:
+                            print(f"{i+1}. {paints[i]}")
+                        except IndexError:
+                            break
+                    paint_list_start += 5
+                    paint_list_end += 5
+                    try:
+                        paint_choice = int(input("Paint Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if paint_choice < 1 or paint_choice > len(paints):
+                        print("Invalid Number! Please choose again.")
+                        paint_choice = 0
+                    if paint_list_start > len(paints) and paint_choice == 0:
+                        print("All paints printed, looping back to start.")
+                        paint_list_start = 0
+                        paint_list_end = 5
+                project.minis[str(mini_choice)]["Paints"] += f"{str(paints[paint_choice-1])} "
             case 4:
                 pass 
             case 5:
