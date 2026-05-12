@@ -114,9 +114,9 @@ def display_main_menu():
 def display_projects_menu(project):
     while True:
         try:
-            choice = int(input("\n1. Add a Mini\n2. View Minis\n3. Paint a Mini\n4. Change Mini Status\n5. Change Project Status\n6. Exit\n"))
+            choice = int(input("\n1. Add a Mini\n2. View Minis\n3. Paint a Mini\n4. Change Mini Status\n5. Change Mini Amount\n6. Edit/Delete Project\n7. Exit\n"))
         except ValueError:
-            print("\nWARNING: Must be a number 1-6.\n")
+            print("\nWARNING: Must be a number 1-7.\n")
             continue
 
         match choice:
@@ -210,16 +210,143 @@ def display_projects_menu(project):
                         print("All paints printed, looping back to start.")
                         paint_list_start = 0
                         paint_list_end = 5
+                if f"{str(paints[paint_choice-1])} " in project.minis[str(mini_choice)]["Paints"]:
+                    print("Paint already added!")
+                    continue
                 project.minis[str(mini_choice)]["Paints"] += f"{str(paints[paint_choice-1])} "
             case 4:
-                pass 
+                if not project.minis:
+                    print("No minis added to project yet.")
+                    continue
+
+                print("Please enter the number of the mini you wish to paint (0 to load more): ")
+                mini_choice = 0
+                mini_list_start = 0
+                mini_list_end = 5
+                while mini_choice == 0:
+                    for i in range(mini_list_start, mini_list_end):
+                        try:
+                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
+                        except KeyError:
+                            break
+                    mini_list_start += 5
+                    mini_list_end += 5
+                    try:
+                        mini_choice = int(input("Mini Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if mini_choice < 1 or mini_choice > len(project.minis):
+                        print("Invalid Number! Please choose again.")
+                        mini_choice = 0
+                    if mini_list_start > len(project.minis) and mini_choice == 0:
+                        print("All minis printed, looping back to start.")
+                        mini_list_start = 0
+                        mini_list_end = 5
+                
+                status_choice = 0
+                status_key = ""
+                while status_choice == 0:
+                    try:
+                        status_choice = int(input("Which status do you want to change it to?\n1. On-Sprue\n2. Assembled\n3. Primed\n4. Painted\n"))
+                    except ValueError:
+                        print("Please enter a number 1-4.")
+                    
+                    match status_choice:
+                        case 1:
+                            status_key = "On-Sprue"
+                        case 2:
+                            status_key = "Assembled" 
+                        case 3:
+                            status_key = "Primed"
+                        case 4:
+                            status_key = "Painted"
+                        case _:
+                            print("Please enter a number 1-4.")
+
+                amount_choice = 0
+                while amount_choice == 0:
+                    try:
+                        amount_choice = int(input("How many do you want to change?\nAmount: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                    if amount_choice > project.minis[str(mini_choice)]["Amount"]:
+                        print(f"There's only {project.minis[str(mini_choice)]["Amount"]} available!")
+                        amount_choice = 0
+
+                project.change_mini_status(str(mini_choice), status_key, amount_choice) 
             case 5:
-                pass
+                if not project.minis:
+                    print("No minis added to project yet.")
+                    continue
+
+                print("Please enter the number of the mini you wish to change (0 to load more): ")
+                mini_choice = 0
+                mini_list_start = 0
+                mini_list_end = 5
+                while mini_choice == 0:
+                    for i in range(mini_list_start, mini_list_end):
+                        try:
+                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
+                        except KeyError:
+                            break
+                    mini_list_start += 5
+                    mini_list_end += 5
+                    try:
+                        mini_choice = int(input("Mini Number: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                        continue
+                    if mini_choice < 1 or mini_choice > len(project.minis):
+                        print("Invalid Number! Please choose again.")
+                        mini_choice = 0
+                    if mini_list_start > len(project.minis) and mini_choice == 0:
+                        print("All minis printed, looping back to start.")
+                        mini_list_start = 0
+                        mini_list_end = 5
+
+                amount_choice = 0
+                while amount_choice == 0:
+                    try:
+                        amount_choice = int(input("What is the amount of this mini?\nAmount: "))
+                    except ValueError:
+                        print("Not a number! Please try again.")
+                
+                project.change_mini_amount(str(mini_choice), amount_choice)
             case 6:
+                project_edit_choice = 0
+                while project_edit_choice == 0:
+                    try:
+                        project_edit_choice = int(input("Which part of the project do you want to edit?\n1. Category\n2. Name\n3. Description\n4. Delete Project\n"))
+                    except ValueError:
+                        print("Please enter a number 1-4.")
+                    
+                    match project_edit_choice:
+                        case 1:
+                            project_category = input("What would you like to change the category to?\nCategory: ")
+                            project.category = project_category
+                        case 2:
+                            project_name = input("What would you like to change the name to?\nName: ")
+                            project.name = project_name
+                        case 3:
+                            project_description = input("What would you like to change the description to?\nDescription: ")
+                            project.description = project_description
+                        case 4:
+                            if input("Are you sure you want to delete the project? (y/n)\n ").lower() == "y":
+                                projects.remove(project)
+                                del project
+                                print("Project deleted.")
+                                display_main_menu()
+                                return 0
+                            else:
+                                print("Deletion Aborted")
+                        case _:
+                            print("Please enter a number 1-4.")
+            case 7:
                 display_main_menu()
                 return 0
             case _:
-                print("\nWARNING: Must be a number 1-6.\n") 
+                print("\nWARNING: Must be a number 1-7.\n") 
 
 def display_miniatures_menu():
     while True:
