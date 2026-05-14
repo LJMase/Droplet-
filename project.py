@@ -4,15 +4,15 @@ class Project():
         self.name = name 
         self.description = description
         self.minis = minis
-        self.__mini_num = 1
+        self.__mini_num = int(next(reversed(self.minis)))+1
 
     # Because the mini object is mutable there's no good way to use it as a key. However, we'll only access the data through for loops, so we can just use an iterating num as the key. 
     def add_mini(self, mini, amount):
         for key in self.minis:
-            if mini == self.minis[key]["Mini"]:
+            if str(mini) == self.minis[key]["Mini"]:
                 print("Mini already added.")
-        self.minis[self.__mini_num] = {"Mini": str(mini), "Amount": amount, "Paints": ""}
-        self.minis[self.__mini_num]["Status"] = {"On-Sprue": amount, "Assembled": 0, "Primed": 0, "Painted": 0}
+        self.minis[str(self.__mini_num)] = {"Mini": str(mini), "Amount": amount, "Paints": ""}
+        self.minis[str(self.__mini_num)]["Status"] = {"On-Sprue": amount, "Assembled": 0, "Primed": 0, "Painted": 0}
         self.__mini_num += 1
 
     def change_mini_status(self, mini, status, amount):

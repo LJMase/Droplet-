@@ -289,7 +289,7 @@ def display_projects_menu(project):
                         try:
                             print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
                         except KeyError:
-                            break
+                            continue
                     mini_list_start += 5
                     mini_list_end += 5
                     try:
@@ -305,8 +305,8 @@ def display_projects_menu(project):
                         mini_list_start = 0
                         mini_list_end = 5
 
-                amount_choice = 0
-                while amount_choice == 0:
+                amount_choice = -1
+                while amount_choice == -1:
                     try:
                         amount_choice = int(input("What is the amount of this mini?\nAmount: "))
                     except ValueError:
