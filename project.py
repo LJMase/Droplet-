@@ -4,13 +4,17 @@ class Project():
         self.name = name 
         self.description = description
         self.minis = minis
-        self.__mini_num = int(next(reversed(self.minis)))+1
+        if self.minis:
+            self.__mini_num = int(next(reversed(self.minis)))+1
+        else:
+            self.__mini_num = 1
 
     # Because the mini object is mutable there's no good way to use it as a key. However, we'll only access the data through for loops, so we can just use an iterating num as the key. 
     def add_mini(self, mini, amount):
         for key in self.minis:
             if str(mini) == self.minis[key]["Mini"]:
                 print("Mini already added.")
+                return 0
         self.minis[str(self.__mini_num)] = {"Mini": str(mini), "Amount": amount, "Paints": ""}
         self.minis[str(self.__mini_num)]["Status"] = {"On-Sprue": amount, "Assembled": 0, "Primed": 0, "Painted": 0}
         self.__mini_num += 1
@@ -38,7 +42,7 @@ class Project():
         total_minis = 0
         if amount == 0:
             print("Amount set to 0, deleting mini.")
-            del self.minis[mini]
+            self.delete_mini(mini)
         elif amount < self.minis[mini]["Amount"]:
             self.minis[mini]["Amount"] = amount 
             for key in self.minis[mini]["Status"]:
@@ -49,6 +53,15 @@ class Project():
             for key, value in self.minis[mini]["Status"].items():
                 total_minis += value
             self.minis[mini]["Status"]["On-Sprue"] += amount - total_minis
+
+    def delete_mini(self, mini):
+        temp_minis = {}
+        temp_key = 1
+        del self.minis[mini]
+        for key in self.minis:
+            temp_minis[str(temp_key)] = self.minis[key]
+            temp_key += 1
+        self.minis = temp_minis
 
     def print_minis(self):
         for key, value in self.minis.items():
