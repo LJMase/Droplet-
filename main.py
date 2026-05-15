@@ -55,29 +55,7 @@ def display_main_menu():
                     continue
 
                 print("Please enter the number of the project you wish to open (0 to load more): ")
-                project_choice = 0
-                project_list_start = 0
-                project_list_end = 5
-                while project_choice == 0:
-                    for i in range(project_list_start, project_list_end):
-                        try:
-                            print(f"{i+1}. {projects[i]}")
-                        except IndexError:
-                            break
-                    project_list_start += 5
-                    project_list_end += 5
-                    try:
-                        project_choice = int(input("Project Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if project_choice < 1 or project_choice > len(projects):
-                        print("Invalid Number! Please choose again.")
-                        project_choice = 0
-                    if project_list_start > len(projects) and project_choice == 0:
-                        print("All projects printed, looping back to start.")
-                        project_list_start = 0
-                        project_list_end = 5
+                project_choice = get_input_from_list(projects, "Project")
                 display_projects_menu(projects[project_choice-1])
                 return 0
             case 2:
@@ -126,29 +104,7 @@ def display_projects_menu(project):
                     continue
 
                 print("Please enter the number of the mini you wish to add (0 to load more): ")
-                mini_choice = 0
-                mini_list_start = 0
-                mini_list_end = 5
-                while mini_choice == 0:
-                    for i in range(mini_list_start, mini_list_end):
-                        try:
-                            print(f"{i+1}. {miniatures[i]}")
-                        except IndexError:
-                            break
-                    mini_list_start += 5
-                    mini_list_end += 5
-                    try:
-                        mini_choice = int(input("Mini Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if mini_choice < 1 or mini_choice > len(miniatures):
-                        print("Invalid Number! Please choose again.")
-                        mini_choice = 0
-                    if mini_list_start > len(miniatures) and mini_choice == 0:
-                        print("All minis printed, looping back to start.")
-                        mini_list_start = 0
-                        mini_list_end = 5
+                mini_choice = get_input_from_list(miniatures, "Mini")
                 project.add_mini(miniatures[mini_choice-1], 1)
             case 2:
                 project.print_minis()
@@ -158,58 +114,14 @@ def display_projects_menu(project):
                     continue
 
                 print("Please enter the number of the mini you wish to paint (0 to load more): ")
-                mini_choice = 0
-                mini_list_start = 0
-                mini_list_end = 5
-                while mini_choice == 0:
-                    for i in range(mini_list_start, mini_list_end):
-                        try:
-                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
-                        except KeyError:
-                            break
-                    mini_list_start += 5
-                    mini_list_end += 5
-                    try:
-                        mini_choice = int(input("Mini Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if mini_choice < 1 or mini_choice > len(project.minis):
-                        print("Invalid Number! Please choose again.")
-                        mini_choice = 0
-                    if mini_list_start > len(project.minis) and mini_choice == 0:
-                        print("All minis printed, looping back to start.")
-                        mini_list_start = 0
-                        mini_list_end = 5
+                mini_choice = get_input_from_list(project.minis, "Mini", 1)
                 
                 if not paints:
                     print("No paints available.")
                     continue
                     
                 print("Please enter the number of the paint you'd like to apply (0 to load more): ")
-                paint_choice = 0
-                paint_list_start = 0
-                paint_list_end = 5
-                while paint_choice == 0:
-                    for i in range(paint_list_start, paint_list_end):
-                        try:
-                            print(f"{i+1}. {paints[i]}")
-                        except IndexError:
-                            break
-                    paint_list_start += 5
-                    paint_list_end += 5
-                    try:
-                        paint_choice = int(input("Paint Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if paint_choice < 1 or paint_choice > len(paints):
-                        print("Invalid Number! Please choose again.")
-                        paint_choice = 0
-                    if paint_list_start > len(paints) and paint_choice == 0:
-                        print("All paints printed, looping back to start.")
-                        paint_list_start = 0
-                        paint_list_end = 5
+                paint_choice = get_input_from_list(paints, "Paint")
                 if f"{str(paints[paint_choice-1])} " in project.minis[str(mini_choice)]["Paints"]:
                     print("Paint already added!")
                     continue
@@ -220,29 +132,7 @@ def display_projects_menu(project):
                     continue
 
                 print("Please enter the number of the mini you wish to paint (0 to load more): ")
-                mini_choice = 0
-                mini_list_start = 0
-                mini_list_end = 5
-                while mini_choice == 0:
-                    for i in range(mini_list_start, mini_list_end):
-                        try:
-                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
-                        except KeyError:
-                            break
-                    mini_list_start += 5
-                    mini_list_end += 5
-                    try:
-                        mini_choice = int(input("Mini Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if mini_choice < 1 or mini_choice > len(project.minis):
-                        print("Invalid Number! Please choose again.")
-                        mini_choice = 0
-                    if mini_list_start > len(project.minis) and mini_choice == 0:
-                        print("All minis printed, looping back to start.")
-                        mini_list_start = 0
-                        mini_list_end = 5
+                mini_choice = get_input_from_list(project.minis, "Mini", 1)
                 
                 status_choice = 0
                 status_key = ""
@@ -281,29 +171,7 @@ def display_projects_menu(project):
                     continue
 
                 print("Please enter the number of the mini you wish to change (0 to load more): ")
-                mini_choice = 0
-                mini_list_start = 0
-                mini_list_end = 5
-                while mini_choice == 0:
-                    for i in range(mini_list_start, mini_list_end):
-                        try:
-                            print(f"{i+1}. {project.minis[str(i+1)]["Mini"]}")
-                        except KeyError:
-                            continue
-                    mini_list_start += 5
-                    mini_list_end += 5
-                    try:
-                        mini_choice = int(input("Mini Number: "))
-                    except ValueError:
-                        print("Not a number! Please try again.")
-                        continue
-                    if mini_choice < 1 or mini_choice > len(project.minis):
-                        print("Invalid Number! Please choose again.")
-                        mini_choice = 0
-                    if mini_list_start > len(project.minis) and mini_choice == 0:
-                        print("All minis printed, looping back to start.")
-                        mini_list_start = 0
-                        mini_list_end = 5
+                mini_choice = get_input_from_list(project.minis, "Mini", 1)
 
                 amount_choice = -1
                 while amount_choice == -1:
@@ -431,6 +299,35 @@ def display_paints_menu():
                 return 0
             case _:
                 print("\nWARNING: Must be a number 1-5.\n")
+
+def get_input_from_list(list, subject, dict=0):
+    user_choice = 0
+    list_start = 0
+    list_end = 5
+    while user_choice == 0:
+        for i in range(list_start, list_end):
+            try:
+                if dict == 1:
+                    print(f"{i+1}. {list[str(i+1)]["Mini"]}")
+                elif dict == 0:
+                    print(f"{i+1}. {list[i]}")
+            except (IndexError, KeyError):
+                continue
+        list_start += 5
+        list_end += 5
+        try:
+            user_choice = int(input(f"{subject} Number: "))
+        except ValueError:
+            print("Not a number! Please try again.")
+            continue
+        if user_choice < 1 or user_choice > len(list):
+            print("Invalid Number! Please choose again.")
+            user_choice = 0
+        if list_start > len(list) and user_choice == 0:
+            print(f"All {subject}s printed, looping back to start.")
+            list_start = 0
+            list_end = 5
+    return user_choice
 
 def main():
     load_objects()
