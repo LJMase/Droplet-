@@ -1,5 +1,5 @@
 class Paint():
-    def __init__(self, brand, color, sku=0):
+    def __init__(self, brand: str, color: str, sku="0"):
         self.brand = brand 
         self.color = color 
         self.sku = sku 
@@ -8,7 +8,7 @@ class Paint():
         return self.brand == other.brand and self.color == other.color and self.sku == other.sku
 
     def __str__(self):
-        if self.sku == 0:
+        if self.sku == "0":
             return f"{self.brand} - {self.color}"
         return f"{self.brand} - {self.color} ({self.sku})"
     

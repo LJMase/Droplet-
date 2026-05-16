@@ -1,5 +1,7 @@
+from mini import Mini
+
 class Project():
-    def __init__(self, category, name, description="", minis={}):
+    def __init__(self, category: str, name: str, description="", minis={}):
         self.category = category 
         self.name = name 
         self.description = description
@@ -10,7 +12,7 @@ class Project():
             self.__mini_num = 1
 
     # Because the mini object is mutable there's no good way to use it as a key. However, we'll only access the data through for loops, so we can just use an iterating num as the key. 
-    def add_mini(self, mini, amount):
+    def add_mini(self, mini: Mini, amount: int) -> None | int:
         for key in self.minis:
             if str(mini) == self.minis[key]["Mini"]:
                 print("Mini already added.")
@@ -19,7 +21,7 @@ class Project():
         self.minis[str(self.__mini_num)]["Status"] = {"On-Sprue": amount, "Assembled": 0, "Primed": 0, "Painted": 0}
         self.__mini_num += 1
 
-    def change_mini_status(self, mini, status, amount):
+    def change_mini_status(self, mini: int, status: str, amount: int) -> None | int:
         total_status = 0
         for key, value in self.minis[mini]["Status"].items():
             total_status += value
@@ -38,7 +40,7 @@ class Project():
                 self.minis[mini]["Status"][status] += amount
                 amount = 0
     
-    def change_mini_amount(self, mini, amount):
+    def change_mini_amount(self, mini: int, amount: int) -> None:
         total_minis = 0
         if amount == 0:
             print("Amount set to 0, deleting mini.")
@@ -54,7 +56,7 @@ class Project():
                 total_minis += value
             self.minis[mini]["Status"]["On-Sprue"] += amount - total_minis
 
-    def delete_mini(self, mini):
+    def delete_mini(self, mini: int) -> None:
         temp_minis = {}
         temp_key = 1
         del self.minis[mini]
@@ -63,7 +65,7 @@ class Project():
             temp_key += 1
         self.minis = temp_minis
 
-    def print_minis(self):
+    def print_minis(self) -> None:
         for key, value in self.minis.items():
             print(f"{self.minis[key]["Amount"]}x {self.minis[key]["Mini"]}: {self.minis[key]["Status"]["On-Sprue"]} On-Sprue, {self.minis[key]["Status"]["Assembled"]} Assembled, {self.minis[key]["Status"]["Primed"]} Primed, {self.minis[key]["Status"]["Painted"]} Painted. Paint Scheme: {self.minis[key]["Paints"]}")
 

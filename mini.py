@@ -1,5 +1,5 @@
 class Mini():
-    def __init__(self, game, faction, name):
+    def __init__(self, game: str, faction: str, name: str):
         self.game = game 
         self.faction = faction
         self.name = name 

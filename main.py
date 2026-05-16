@@ -40,7 +40,7 @@ def load_objects():
         with open(project_csv, "w"):
             pass 
 
-def display_main_menu():
+def display_main_menu() -> int:
     while True:
         try:
             choice = int(input("\nWelcome to Droplet! What would you like to do?\n1. Open a Project\n2. Create a Project\n3. View All Projects\n4. Change Miniatures\n5. Change Paints\n6. Exit\n"))
@@ -89,7 +89,7 @@ def display_main_menu():
             case _:
                 print("\nWARNING: Must be a number 1-6.")
 
-def display_projects_menu(project):
+def display_projects_menu(project: Project):
     while True:
         try:
             choice = int(input("\n1. Add a Mini\n2. View Minis\n3. Paint a Mini\n4. Change Mini Status\n5. Change Mini Amount\n6. Edit/Delete Project\n7. Exit\n"))
@@ -216,7 +216,7 @@ def display_projects_menu(project):
             case _:
                 print("\nWARNING: Must be a number 1-7.\n") 
 
-def display_miniatures_menu():
+def display_miniatures_menu() -> int:
     while True:
         try:
             choice = int(input("What would you like to do?\n1. Add a Mini\n2. Edit a Mini\n3. Delete a Mini\n4. View Miniatures\n5. Go Back\n"))
@@ -258,7 +258,7 @@ def display_miniatures_menu():
             case _:
                 print("\nWARNING: Must be a number 1-5.\n")
 
-def display_paints_menu():
+def display_paints_menu() -> int:
     while True:
         try:
             choice = int(input("What would you like to do?\n1. Add a Paint\n2. Edit a Paint\n3. Delete a Paint\n4. View Paints\n5. Go Back\n"))
@@ -300,7 +300,7 @@ def display_paints_menu():
             case _:
                 print("\nWARNING: Must be a number 1-5.\n")
 
-def get_input_from_list(list, subject, dict=0):
+def get_input_from_list(list: list | dict, subject: str, dict=0) -> int:
     user_choice = 0
     list_start = 0
     list_end = 5
