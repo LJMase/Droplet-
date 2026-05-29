@@ -23,7 +23,7 @@ class Project():
 
     def change_mini_status(self, mini: int, status: str, amount: int) -> None | int:
         total_status = 0
-        for key, value in self.minis[mini]["Status"].items():
+        for value in self.minis[mini]["Status"].values():
             total_status += value
         if total_status < amount:
             print("Not enough miniatures!")
@@ -66,15 +66,20 @@ class Project():
         self.minis = temp_minis
 
     def print_minis(self) -> None:
+        print("\n--------Project Miniatures--------")
         for key, value in self.minis.items():
             print(f"{self.minis[key]["Amount"]}x {self.minis[key]["Mini"]}: {self.minis[key]["Status"]["On-Sprue"]} On-Sprue, {self.minis[key]["Status"]["Assembled"]} Assembled, {self.minis[key]["Status"]["Primed"]} Primed, {self.minis[key]["Status"]["Painted"]} Painted. Paint Scheme: {self.minis[key]["Paints"]}")
+        print("----------------------------------")
 
+    # Dunder equals is used for finding equivalent project objects when I compare them in main.
     def __eq__(self, other):
         return self.name == other.name and self.category == other.category
 
+    # Dunder str is used to provide a custom print format for the project objects. If the SKU is 0 it will not be included in the print. 
     def __str__(self):
         return f"({self.category}) {self.name}: {self.description}"
 
+    # Dunder less than compares objects alphabetically based on name and then category. This is primarily to use sorted() on a list of projects.
     def __lt__(self, other):
         if self.name == other.name:
             return self.category < other.category
